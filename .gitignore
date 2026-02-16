@@ -4,3 +4,4 @@ node_modules
 data/inquiries.ndjson
 .vercel
 dist
+.env*.local
