@@ -13,6 +13,9 @@ Ranchu Japan合同会社のコーポレートサイト実装です。
   - `/api/contact` 問い合わせAPI
   - バリデーション、簡易レート制限、ハニーポット
   - `data/inquiries.ndjson` への保存
+ - Vercelデプロイ対応
+   - `@vercel/static-build` で静的ページ配信
+   - `api/contact.js` でServerless APIを提供
 
 ## Run
 ```bash
@@ -22,6 +25,11 @@ npm start
 開発モード:
 ```bash
 npm run dev
+```
+
+本番ビルド:
+```bash
+npm run build
 ```
 
 ブラウザ: `http://localhost:3000`
@@ -46,4 +54,5 @@ npm run dev
 
 ## Notes
 - Canonical URL は `https://www.ranchujpn.com` を前提に設定しています。
-- 実運用時は会社情報・実績数値・法務文面を確定値に置き換えてください。
+- OGP画像は `public/assets/images/og-default.svg` を利用しています。
+- VercelのServerless実行環境は永続ストレージではないため、問い合わせ永続化は外部DB（Supabase等）連携を推奨します。

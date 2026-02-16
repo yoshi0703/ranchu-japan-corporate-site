@@ -5,6 +5,7 @@
   "description": "Ranchu Japan corporate website optimized for trust, SEO, and AEO.",
   "main": "server.js",
   "scripts": {
+    "build": "node scripts/build.mjs",
     "start": "node server.js",
     "dev": "node --watch server.js"
   },

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Ranchu Japan">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b3f4e" />
+      <stop offset="1" stop-color="#0e7490" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22b8cf" />
+      <stop offset="1" stop-color="#8ee3ef" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="150" cy="90" r="220" fill="#0f172a" opacity="0.15" />
+  <circle cx="1090" cy="560" r="240" fill="#e2f8fc" opacity="0.11" />
+  <rect x="90" y="430" width="1020" height="6" rx="3" fill="url(#accent)" opacity="0.9" />
+  <text x="90" y="210" fill="#dff5fb" font-size="28" font-family="'IBM Plex Sans', 'Noto Sans JP', sans-serif" letter-spacing="4">MOST INTELLIGENT, MOST SIMPLE</text>
+  <text x="90" y="315" fill="#ffffff" font-size="68" font-weight="700" font-family="'IBM Plex Sans', 'Noto Sans JP', sans-serif">Ranchu Japan</text>
+  <text x="90" y="380" fill="#e2e8f0" font-size="32" font-family="'Noto Sans JP', sans-serif">複雑な課題を、最も賢く、最もシンプルに実装する。</text>
+</svg>
