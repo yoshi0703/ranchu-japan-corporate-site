@@ -11,7 +11,7 @@
   --surface: #ffffff;
   --text: #343541;
   --text-secondary: #64748b;
-  --text-tertiary: #94a3b8;
+  --text-tertiary: #6b7280;
   --border: rgba(226, 232, 240, 0.6);
   --border-solid: #e2e8f0;
 
@@ -126,7 +126,7 @@ ul, ol {
   background: var(--accent);
   color: #fff;
   z-index: 9999;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .sr-only {
@@ -226,7 +226,7 @@ button[type="submit"] {
   border-radius: var(--radius-full);
   font-family: var(--font-sans);
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   background: var(--accent);
   color: #ffffff;
@@ -254,7 +254,7 @@ button[type="submit"]:active {
 .button.secondary {
   background: transparent;
   color: var(--text);
-  border: 1px solid var(--border-solid);
+  border: 1.5px solid var(--text-tertiary);
   box-shadow: none;
 }
 
@@ -301,7 +301,7 @@ button[type="submit"]:active {
 .hero .eyebrow {
   display: inline-block;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-tertiary);
@@ -310,7 +310,7 @@ button[type="submit"]:active {
 
 .hero h1 {
   font-size: clamp(2rem, 4.5vw, 3.25rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.03em;
 }
@@ -391,7 +391,7 @@ button[type="submit"]:active {
 
 .section-label {
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-tertiary);
@@ -400,7 +400,7 @@ button[type="submit"]:active {
 
 .section-title {
   font-size: clamp(1.5rem, 2.5vw, 2.25rem);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.2;
 }
@@ -477,7 +477,7 @@ button[type="submit"]:active {
   align-items: center;
   gap: 0.25rem;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-top: 1rem;
   color: var(--text);
   transition: opacity var(--duration) var(--ease);
@@ -554,13 +554,13 @@ button[type="submit"]:active {
 
 .cta-panel h2 {
   font-size: clamp(1.25rem, 2.5vw, 1.85rem);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 
 .cta-panel p {
   margin-top: 0.75rem;
-  opacity: 0.65;
+  opacity: 0.8;
   font-size: 0.95rem;
 }
 
@@ -591,7 +591,7 @@ button[type="submit"]:active {
 
 .faq summary {
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.95rem;
   list-style: none;
   display: flex;
@@ -689,7 +689,7 @@ button[type="submit"]:active {
 
 label {
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -780,7 +780,7 @@ textarea {
 
 .info-table th {
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.85rem;
   color: var(--text-secondary);
   padding: 1rem 1rem 1rem 0;
@@ -925,7 +925,7 @@ textarea {
 
 .hp-label {
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-tertiary);
@@ -934,7 +934,7 @@ textarea {
 
 .hp-heading {
   font-size: clamp(1.5rem, 2.5vw, 2.25rem);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.2;
 }
@@ -987,16 +987,16 @@ textarea {
 
 .hp-hero-eyebrow {
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  opacity: 0.7;
+  opacity: 0.85;
   margin-bottom: 1rem;
 }
 
 .hp-hero-title {
   font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.03em;
 }
@@ -1046,7 +1046,7 @@ textarea {
   padding: 0.3rem 0.75rem;
   border-radius: var(--radius-full);
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   background: rgba(255,255,255,0.15);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -1080,7 +1080,7 @@ textarea {
   padding: 0.5rem 1rem;
   border-radius: var(--radius-full);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
   border: 1px solid var(--border-solid);
   color: var(--text-secondary);
@@ -1173,7 +1173,7 @@ textarea {
   display: inline-block;
   margin-top: 0.75rem;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -1218,7 +1218,7 @@ textarea {
 .hp-slide-caption {
   padding: 0.75rem 1rem;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -1289,7 +1289,7 @@ textarea {
   padding: 0.25rem 0.6rem;
   border-radius: var(--radius-full);
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   background: rgba(255,255,255,0.92);
   backdrop-filter: blur(8px);
 }
@@ -1310,7 +1310,7 @@ textarea {
   display: inline-block;
   margin-top: 0.75rem;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
   transition: opacity var(--duration);
 }
@@ -1335,7 +1335,7 @@ textarea {
   object-fit: cover;
 }
 .hp-profile-header { margin-bottom: 1rem; }
-.hp-profile-name { font-size: 1.5rem; font-weight: 800; }
+.hp-profile-name { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
 .hp-profile-role {
   display: block;
   font-size: 0.8rem;
@@ -1354,7 +1354,7 @@ textarea {
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius-full);
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   background: var(--bg-alt);
   color: var(--text-secondary);
   border: 1px solid var(--border);
@@ -1376,7 +1376,7 @@ textarea {
 .hp-stat-value {
   display: block;
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text);
 }
 .hp-stat-label {
@@ -1411,11 +1411,11 @@ textarea {
 }
 .hp-cta-content h2 {
   font-size: clamp(1.25rem, 2.5vw, 1.85rem);
-  font-weight: 800;
+  font-weight: 700;
 }
 .hp-cta-content p {
   margin-top: 0.75rem;
-  opacity: 0.65;
+  opacity: 0.8;
   font-size: 0.95rem;
 }
 .hp-cta-content .button {
@@ -1580,7 +1580,7 @@ textarea {
     align-items: center;
     padding: 0.875rem 0;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text);
     border-bottom: 1px solid var(--border);
     min-height: 48px;
@@ -1746,13 +1746,9 @@ textarea {
   .hp-profile-photo {
     aspect-ratio: 1 / 1;
     max-width: 220px;
-    margin: 0 auto;
     border-radius: 50%;
   }
-  .hp-profile-stats { justify-content: center; }
   .hp-profile-name { font-size: 1.25rem; }
-  .hp-profile-body { text-align: center; }
-  .hp-profile-tags { justify-content: center; }
 
   /* HP CTA mobile */
   .hp-cta {
