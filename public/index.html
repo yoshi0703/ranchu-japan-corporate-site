@@ -92,164 +92,262 @@
 
     <main id="main">
 
-      <!-- Hero -->
-      <section class="hero">
-        <div class="container hero-grid">
-          <div class="hero-inner">
-            <p class="eyebrow">Most Intelligent, Most Simple</p>
-            <h1>複雑な課題を、<br />最も賢く、最もシンプルに。</h1>
-            <p class="hero-sub">自治体・企業・店舗の現場課題をソフトウェアと運用設計で解決するRanchu Japan。派手さよりも、成果が出る仕組みを。</p>
-            <div class="hero-actions">
-              <a class="button" href="/contact/">課題を相談する</a>
+      <!-- Hero — full-bleed image -->
+      <section class="hp-hero">
+        <div class="hp-hero-bg">
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&h=900&fit=crop&q=80" alt="" loading="eager" />
+          <div class="hp-hero-overlay"></div>
+        </div>
+        <div class="container hp-hero-content">
+          <p class="hp-hero-eyebrow">Ranchu Japan</p>
+          <h1 class="hp-hero-title">複雑な課題を、<br>最も賢く、最もシンプルに。</h1>
+          <p class="hp-hero-sub">自治体・企業・店舗の現場課題を<br>ソフトウェアと運用設計で解決します。</p>
+          <div class="hp-hero-actions">
+            <a class="button" href="/contact/">課題を相談する</a>
+            <a class="button secondary" href="#hp-services">サービスを見る</a>
+          </div>
+          <div class="hp-hero-trust">
+            <span class="hp-trust-chip">創業 2020年</span>
+            <span class="hp-trust-chip">受託+プロダクト</span>
+            <span class="hp-trust-chip">SDGs最優秀賞</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Category Chips — Airbnb sticky -->
+      <nav class="hp-chips" aria-label="対象カテゴリ">
+        <div class="container">
+          <div class="hp-chips-scroll">
+            <a href="/solutions/government/" class="hp-chip">
+              <span class="hp-chip-icon" aria-hidden="true">&#x1F3DB;</span>
+              <span>自治体</span>
+            </a>
+            <a href="/solutions/enterprise/" class="hp-chip">
+              <span class="hp-chip-icon" aria-hidden="true">&#x1F3E2;</span>
+              <span>企業</span>
+            </a>
+            <a href="/solutions/store/" class="hp-chip">
+              <span class="hp-chip-icon" aria-hidden="true">&#x1F3EA;</span>
+              <span>店舗</span>
+            </a>
+            <a href="/solutions/partner/" class="hp-chip">
+              <span class="hp-chip-icon" aria-hidden="true">&#x1F91D;</span>
+              <span>パートナー</span>
+            </a>
+            <a href="/services/kuchitoru/" class="hp-chip">
+              <span class="hp-chip-icon" aria-hidden="true">&#x2B50;</span>
+              <span>クチトル</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Services — Airbnb listing cards -->
+      <section class="hp-section" id="hp-services" aria-labelledby="hp-services-heading">
+        <div class="container">
+          <p class="hp-label">SERVICES</p>
+          <h2 class="hp-heading" id="hp-services-heading">何ができるか</h2>
+          <p class="hp-lead">技術だけでなく、事業成果まで責任を持ちます。</p>
+          <div class="hp-card-grid">
+            <a href="/services/custom-development/" class="hp-card">
+              <div class="hp-card-img">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&q=80" alt="データ分析のダッシュボードが映るノートPC" loading="lazy" />
+                <span class="hp-card-badge">受託開発</span>
+              </div>
+              <div class="hp-card-body">
+                <h3>受託開発・DX支援</h3>
+                <p>課題整理から導入まで伴走。最短で成果に接続する開発を実施します。</p>
+                <span class="hp-card-arrow">詳しく見る →</span>
+              </div>
+            </a>
+            <a href="/services/kuchitoru/" class="hp-card">
+              <div class="hp-card-img">
+                <img src="https://yydkvjaytggaqbhcookk.supabase.co/storage/v1/object/public/image/dashboard-home.png" alt="クチトル ダッシュボード画面" loading="lazy" />
+                <span class="hp-card-badge hp-card-badge--accent">プロダクト</span>
+              </div>
+              <div class="hp-card-body">
+                <h3>クチトル</h3>
+                <p>口コミ・MEO運用を、現場負荷を増やさずに継続できる形で支援。</p>
+                <span class="hp-card-arrow">詳しく見る →</span>
+              </div>
+            </a>
+            <a href="/solutions/" class="hp-card">
+              <div class="hp-card-img">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&q=80" alt="ホワイトボードで戦略を議論するチーム" loading="lazy" />
+                <span class="hp-card-badge">運用設計</span>
+              </div>
+              <div class="hp-card-body">
+                <h3>業務設計・運用支援</h3>
+                <p>導入後の改善サイクルを前提に、内製化しやすい構成を提案します。</p>
+                <span class="hp-card-arrow">詳しく見る →</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Product Showcase — recipe-step carousel -->
+      <section class="hp-section hp-section--alt" aria-labelledby="hp-product-heading">
+        <div class="container">
+          <p class="hp-label">PRODUCT</p>
+          <h2 class="hp-heading" id="hp-product-heading">クチトルの中身</h2>
+          <p class="hp-lead">口コミ運用の全体像が1つのダッシュボードに。</p>
+        </div>
+        <div class="hp-carousel" aria-label="クチトル画面ギャラリー">
+          <div class="hp-carousel-track">
+            <div class="hp-carousel-slide">
+              <div class="hp-slide-step">Step 1</div>
+              <img src="https://yydkvjaytggaqbhcookk.supabase.co/storage/v1/object/public/image/dashboard-home.png" alt="クチトル ホーム画面" loading="lazy" />
+              <p class="hp-slide-caption">全体の状況を一目で把握</p>
+            </div>
+            <div class="hp-carousel-slide">
+              <div class="hp-slide-step">Step 2</div>
+              <img src="https://yydkvjaytggaqbhcookk.supabase.co/storage/v1/object/public/image/dashboard-reviews.png" alt="クチトル 口コミ管理画面" loading="lazy" />
+              <p class="hp-slide-caption">口コミを一元管理・返信</p>
+            </div>
+            <div class="hp-carousel-slide">
+              <div class="hp-slide-step">Step 3</div>
+              <img src="https://yydkvjaytggaqbhcookk.supabase.co/storage/v1/object/public/image/dashboard-interview.png" alt="クチトル インタビュー画面" loading="lazy" />
+              <p class="hp-slide-caption">AIが顧客の声を収集</p>
+            </div>
+            <div class="hp-carousel-slide">
+              <div class="hp-slide-step">Step 4</div>
+              <img src="https://yydkvjaytggaqbhcookk.supabase.co/storage/v1/object/public/image/dashboard-meo.png" alt="クチトル MEO分析画面" loading="lazy" />
+              <p class="hp-slide-caption">MEO順位の推移を可視化</p>
+            </div>
+            <div class="hp-carousel-slide">
+              <div class="hp-slide-step">Step 5</div>
+              <img src="https://yydkvjaytggaqbhcookk.supabase.co/storage/v1/object/public/image/dashboard-coupon.png" alt="クチトル クーポン管理画面" loading="lazy" />
+              <p class="hp-slide-caption">再来店を促すクーポン配信</p>
+            </div>
+            <div class="hp-carousel-slide">
+              <div class="hp-slide-step">Step 6</div>
+              <img src="https://yydkvjaytggaqbhcookk.supabase.co/storage/v1/object/public/image/dashboard-area.png" alt="クチトル エリア分析画面" loading="lazy" />
+              <p class="hp-slide-caption">商圏の競合状況を分析</p>
+            </div>
+          </div>
+          <div class="hp-carousel-dots" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- Track Record — matching-app swipe cards -->
+      <section class="hp-section" aria-labelledby="hp-track-heading">
+        <div class="container">
+          <p class="hp-label">TRACK RECORD</p>
+          <h2 class="hp-heading" id="hp-track-heading">実績で証明する</h2>
+          <p class="hp-lead">公開情報ベースで確認できる実績です。</p>
+        </div>
+        <div class="hp-swipe-row">
+          <div class="hp-swipe-track">
+            <article class="hp-match-card">
+              <div class="hp-match-img">
+                <img src="https://www.theoceaninnovation.com/cdn/shop/articles/DSC01788_3.jpg?v=1695366071" alt="創価大学SDGsグッドプラクティス賞 授賞式" loading="lazy" />
+                <div class="hp-match-tag">&#x1F3C6; 受賞</div>
+              </div>
+              <div class="hp-match-body">
+                <h3>SDGsグッドプラクティス賞<br>最優秀賞</h3>
+                <p>2023年、創価大学「第1回SDGsグッドプラクティス」で最優秀賞を受賞。</p>
+                <a href="https://www.soka.ac.jp/sodai_days/2023/06/8480/" target="_blank" rel="noopener noreferrer" class="hp-match-link">掲載を見る →</a>
+              </div>
+            </article>
+            <article class="hp-match-card">
+              <div class="hp-match-img">
+                <img src="https://images.unsplash.com/photo-1504711434969-e33886168d6c?w=600&h=400&fit=crop&q=80" alt="新聞紙面のイメージ" loading="lazy" />
+                <div class="hp-match-tag">&#x1F4F0; メディア</div>
+              </div>
+              <div class="hp-match-body">
+                <h3>朝日新聞Thinkキャンパス等<br>メディア掲載</h3>
+                <p>朝日新聞、毎日新聞、民教協番組などで活動が紹介されました。</p>
+                <a href="https://www.asahi.com/thinkcampus/pr_soka_3/" target="_blank" rel="noopener noreferrer" class="hp-match-link">記事を見る →</a>
+              </div>
+            </article>
+            <article class="hp-match-card">
+              <div class="hp-match-img">
+                <img src="https://www.theoceaninnovation.com/cdn/shop/articles/IMG_8993.jpg?v=1695365375" alt="エシカルエキスポ2023 出展ブース" loading="lazy" />
+                <div class="hp-match-tag">&#x1F3A4; 登壇</div>
+              </div>
+              <div class="hp-match-body">
+                <h3>エシカルエキスポ2023<br>出展</h3>
+                <p>エシカルエキスポ2023への出展、地域イベント登壇。</p>
+                <a href="https://www.theoceaninnovation.com/blogs/%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9/%E3%82%A8%E3%82%B7%E3%82%AB%E3%83%AB%E3%82%A8%E3%82%AD%E3%82%B9%E3%83%9D2023%E3%81%AB%E5%87%BA%E5%B1%95%E3%83%BC%E6%B5%B7%E6%B4%8B%E3%83%97%E3%83%A9%E3%82%B9%E3%83%81%E3%83%83%E3%82%AF%E3%83%AA%E3%82%B5%E3%82%A4%E3%82%AF%E3%83%AB%E3%81%A8%E3%82%A8%E3%82%B7%E3%82%AB%E3%83%AB%E3%81%AA%E5%8F%96%E3%82%8A%E7%B5%84%E3%81%BF" target="_blank" rel="noopener noreferrer" class="hp-match-link">出展情報 →</a>
+              </div>
+            </article>
+            <article class="hp-match-card">
+              <div class="hp-match-img">
+                <img src="https://yydkvjaytggaqbhcookk.supabase.co/storage/v1/object/public/image/partner-image.png" alt="パートナー企業との連携" loading="lazy" />
+                <div class="hp-match-tag">&#x1F91D; 連携</div>
+              </div>
+              <div class="hp-match-body">
+                <h3>パートナー企業との<br>共同開発実績</h3>
+                <p>技術リソース提供・共同提案による事業支援。</p>
+                <a href="/solutions/partner/" class="hp-match-link">詳しく見る →</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Founder Profile — matching-app style -->
+      <section class="hp-section hp-section--alt" aria-labelledby="hp-ceo-heading">
+        <div class="container">
+          <p class="hp-label">FOUNDER</p>
+          <h2 class="hp-heading" id="hp-ceo-heading">つくる人</h2>
+          <div class="hp-profile">
+            <div class="hp-profile-photo">
+              <img src="https://yydkvjaytggaqbhcookk.supabase.co/storage/v1/object/public/image/yoshiaki_otsuka.jpg" alt="大束良明のポートレート写真" loading="lazy" />
+            </div>
+            <div class="hp-profile-body">
+              <div class="hp-profile-header">
+                <h3 class="hp-profile-name">大束 良明</h3>
+                <span class="hp-profile-role">代表社員 / エンジニア</span>
+              </div>
+              <div class="hp-profile-tags">
+                <span class="hp-tag">フルスタック開発</span>
+                <span class="hp-tag">業務設計</span>
+                <span class="hp-tag">AI活用</span>
+                <span class="hp-tag">海洋プラスチック事業</span>
+              </div>
+              <p class="hp-profile-bio">2020年にRanchu Japanを設立。自治体・企業・店舗の現場課題に向き合い、技術と運用設計の両面からソリューションを提供。派手さよりも、成果が出る仕組みを追求しています。</p>
+              <div class="hp-profile-stats">
+                <div class="hp-stat">
+                  <span class="hp-stat-value">2020</span>
+                  <span class="hp-stat-label">創業年</span>
+                </div>
+                <div class="hp-stat">
+                  <span class="hp-stat-value">6+</span>
+                  <span class="hp-stat-label">年の経験</span>
+                </div>
+                <div class="hp-stat">
+                  <span class="hp-stat-value">2</span>
+                  <span class="hp-stat-label">事業領域</span>
+                </div>
+              </div>
               <a class="button secondary" href="/company/">会社情報を見る</a>
             </div>
-            <dl class="kpi-row" aria-label="主要指標">
-              <div class="kpi">
-                <dt>創業</dt>
-                <dd>2020年</dd>
-              </div>
-              <div class="kpi">
-                <dt>代表</dt>
-                <dd>大束良明</dd>
-              </div>
-              <div class="kpi">
-                <dt>提供形態</dt>
-                <dd>受託+プロダクト</dd>
-              </div>
-              <div class="kpi">
-                <dt>初回返信</dt>
-                <dd>3営業日以内</dd>
-              </div>
-            </dl>
-          </div>
-          <div class="hero-image img-placeholder" style="min-height:320px;">
-            <img src="https://yydkvjaytggaqbhcookk.supabase.co/storage/v1/object/public/image/yoshiaki_otsuka.jpg" alt="Ranchu Japan代表 大束良明" style="object-fit:cover;width:100%;height:100%;border-radius:12px;" />
           </div>
         </div>
       </section>
 
-      <!-- 信頼の根拠 -->
-      <section class="section alt" aria-labelledby="trust-heading">
+      <!-- CTA — image background -->
+      <section class="hp-section" aria-labelledby="hp-cta-heading">
         <div class="container">
-          <p class="section-label">WHY US</p>
-          <h2 class="section-title" id="trust-heading">信頼の根拠</h2>
-          <p class="section-lead">技術だけでなく、事業成果まで責任を持つための3要素です。</p>
-          <div class="grid cols-3">
-            <article class="card">
-              <h3>実装力</h3>
-              <p>要件定義、開発、運用まで一気通貫で対応。仕様だけで終わらせません。</p>
-            </article>
-            <article class="card">
-              <h3>業務理解</h3>
-              <p>現場の運用とKPIから逆算し、使われる設計を優先します。</p>
-            </article>
-            <article class="card">
-              <h3>継続運用</h3>
-              <p>導入後の改善サイクルを前提に、内製化しやすい構成を提案します。</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- 対象別ソリューション -->
-      <section class="section" aria-labelledby="solutions-heading">
-        <div class="container">
-          <p class="section-label">SOLUTIONS</p>
-          <h2 class="section-title" id="solutions-heading">対象別ソリューション</h2>
-          <p class="section-lead">同じ技術でも、対象ごとに設計を変えます。</p>
-          <div class="grid cols-4">
-            <article class="card">
-              <h3>自治体向け</h3>
-              <p>住民接点のDX、問い合わせ導線設計、業務負荷削減。</p>
-              <a class="card-link" href="/solutions/government/">詳細を見る</a>
-            </article>
-            <article class="card">
-              <h3>企業向け</h3>
-              <p>部門横断の業務最適化、データ活用、顧客体験改善。</p>
-              <a class="card-link" href="/solutions/enterprise/">詳細を見る</a>
-            </article>
-            <article class="card">
-              <h3>店舗向け</h3>
-              <p>MEO、口コミ運用、再来店導線の仕組み化。</p>
-              <a class="card-link" href="/solutions/store/">詳細を見る</a>
-            </article>
-            <article class="card">
-              <h3>パートナー向け</h3>
-              <p>共同提案・共同開発・実装リソース提供。</p>
-              <a class="card-link" href="/solutions/partner/">詳細を見る</a>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- 提供サービス -->
-      <section class="section alt" aria-labelledby="services-heading">
-        <div class="container">
-          <p class="section-label">SERVICES</p>
-          <h2 class="section-title" id="services-heading">提供サービス</h2>
-          <div class="grid cols-2">
-            <article class="card">
-              <span class="badge">受託</span>
-              <h3>受託開発・DX支援</h3>
-              <p>課題整理から導入まで伴走し、最短で成果に接続する開発を実施します。</p>
-              <a class="card-link" href="/services/custom-development/">受託開発ページへ</a>
-            </article>
-            <article class="card">
-              <span class="badge">プロダクト</span>
-              <h3>クチトル</h3>
-              <p>口コミ・MEO運用を、現場負荷を増やさずに継続できる形で支援します。</p>
-              <a class="card-link" href="/services/kuchitoru/">クチトルページへ</a>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- 実績 -->
-      <section class="section" aria-labelledby="results-heading">
-        <div class="container">
-          <p class="section-label">TRACK RECORD</p>
-          <h2 class="section-title" id="results-heading">実装で証明する</h2>
-          <p class="section-lead">公開情報ベースで確認できる実績を掲載しています（2026年2月時点）。</p>
-          <div class="grid cols-1">
-            <article class="media-card">
-              <div class="media-thumb img-placeholder">
-                <img src="https://www.theoceaninnovation.com/cdn/shop/articles/DSC01788_3.jpg?v=1695366071" alt="創価大学SDGsグッドプラクティス賞 授賞式" />
-              </div>
-              <div>
-                <h3>受賞: SDGsグッドプラクティス賞 最優秀賞</h3>
-                <p>2023年、創価大学「第1回SDGsグッドプラクティス（タイプA）」で最優秀賞を受賞。</p>
-                <a class="card-link" href="https://www.soka.ac.jp/sodai_days/2023/06/8480/" target="_blank" rel="noopener noreferrer">掲載を見る</a>
-              </div>
-            </article>
-            <article class="media-card">
-              <div class="media-thumb img-placeholder">
-                <img src="/assets/images/track-asahi.jpg" alt="[DEV] 朝日新聞Thinkキャンパスの記事ページのスクリーンショット" />
-              </div>
-              <div>
-                <h3>メディア掲載: 朝日新聞Thinkキャンパス等</h3>
-                <p>朝日新聞Thinkキャンパス、毎日新聞（2023年9月掲載告知）、民教協番組などで活動が紹介。</p>
-                <a class="card-link" href="https://www.theoceaninnovation.com/blogs/%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9/%E6%AF%8E%E6%97%A5%E6%96%B0%E8%81%9E%E3%81%AB%E6%8E%B2%E8%BC%89%E3%81%95%E3%82%8C%E3%81%9F%E5%A4%A7%E6%9D%9F%E8%89%AF%E6%98%8E%E6%B0%8F%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6" target="_blank" rel="noopener noreferrer">掲載を見る</a>
-              </div>
-            </article>
-            <article class="media-card">
-              <div class="media-thumb img-placeholder">
-                <img src="https://www.theoceaninnovation.com/cdn/shop/articles/IMG_8993.jpg?v=1695365375" alt="エシカルエキスポ2023 出展ブース" />
-              </div>
-              <div>
-                <h3>登壇・出展: エシカルエキスポ2023</h3>
-                <p>エシカルエキスポ2023への出展、地域イベント登壇などの活動履歴を公開。</p>
-                <a class="card-link" href="https://www.theoceaninnovation.com/blogs/%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9/%E3%82%A8%E3%82%B7%E3%82%AB%E3%83%AB%E3%82%A8%E3%82%AD%E3%82%B9%E3%83%9D2023%E3%81%AB%E5%87%BA%E5%B1%95%E3%83%BC%E6%B5%B7%E6%B4%8B%E3%83%97%E3%83%A9%E3%82%B9%E3%83%81%E3%83%83%E3%82%AF%E3%83%AA%E3%82%B5%E3%82%A4%E3%82%AF%E3%83%AB%E3%81%A8%E3%82%A8%E3%82%B7%E3%82%AB%E3%83%AB%E3%81%AA%E5%8F%96%E3%82%8A%E7%B5%84%E3%81%BF" target="_blank" rel="noopener noreferrer">出展情報を見る</a>
-              </div>
-            </article>
+          <div class="hp-cta">
+            <img class="hp-cta-bg" src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1200&h=600&fit=crop&q=80" alt="" aria-hidden="true" loading="lazy" />
+            <div class="hp-cta-overlay"></div>
+            <div class="hp-cta-content">
+              <h2 id="hp-cta-heading">まずは課題を整理するところから。</h2>
+              <p>初回ヒアリングで、目的・現状・優先順位を明確にします。</p>
+              <a class="button" href="/contact/">お問い合わせへ進む</a>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- FAQ -->
-      <section class="section alt" aria-labelledby="faq-heading">
+      <section class="hp-section hp-section--alt" aria-labelledby="hp-faq-heading">
         <div class="container">
-          <p class="section-label">FAQ</p>
-          <h2 class="section-title" id="faq-heading">よくある相談</h2>
+          <p class="hp-label">FAQ</p>
+          <h2 class="hp-heading" id="hp-faq-heading">よくある相談</h2>
           <div class="faq">
             <details>
               <summary>相談段階でも問い合わせ可能ですか？</summary>
@@ -263,17 +361,14 @@
               <summary>小規模な店舗でも相談できますか？</summary>
               <p>可能です。運用負荷を増やさない導入を前提に、段階的なプランを提示します。</p>
             </details>
-          </div>
-        </div>
-      </section>
-
-      <!-- CTA -->
-      <section class="section" aria-labelledby="contact-short-heading">
-        <div class="container">
-          <div class="cta-panel" aria-labelledby="contact-short-heading">
-            <h2 id="contact-short-heading">まずは課題を整理するところから。</h2>
-            <p>初回ヒアリングで、目的・現状・優先順位を明確にします。</p>
-            <a class="button" href="/contact/">お問い合わせへ進む</a>
+            <details>
+              <summary>クチトルはどのような店舗に向いていますか？</summary>
+              <p>Googleマップ経由で集客している飲食店・美容室・クリニックなど、口コミが来店の意思決定に影響する業種に特に有効です。</p>
+            </details>
+            <details>
+              <summary>初回返信までどれくらいかかりますか？</summary>
+              <p>通常3営業日以内にご返信します。</p>
+            </details>
           </div>
         </div>
       </section>

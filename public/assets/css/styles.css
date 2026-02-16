@@ -916,6 +916,510 @@ textarea {
 .text-secondary { color: var(--text-secondary); }
 
 /* ============================================================
+   Homepage Redesign — .hp- namespace
+   ============================================================ */
+
+/* --- HP Section Base --- */
+.hp-section { padding: var(--section-y) 0; }
+.hp-section--alt { background: var(--bg-alt); }
+
+.hp-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 0.75rem;
+}
+
+.hp-heading {
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.hp-lead {
+  margin-top: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 560px;
+  line-height: 1.8;
+}
+
+/* --- Hero (full-bleed image) --- */
+.hp-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.hp-hero-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.hp-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hp-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.35) 50%,
+    rgba(0, 0, 0, 0.12) 100%
+  );
+}
+
+.hp-hero-content {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  padding-bottom: 4rem;
+}
+
+.hp-hero-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 1rem;
+}
+
+.hp-hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.hp-hero-sub {
+  margin-top: 1.25rem;
+  font-size: 1.05rem;
+  opacity: 0.8;
+  line-height: 1.8;
+  max-width: 480px;
+}
+
+.hp-hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.hp-hero-actions .button {
+  background: #ffffff;
+  color: var(--accent);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+.hp-hero-actions .button:hover {
+  background: #f0f0f0;
+}
+.hp-hero-actions .button.secondary {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.4);
+}
+.hp-hero-actions .button.secondary:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.6);
+}
+
+.hp-hero-trust {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.hp-trust-chip {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* --- Category Chips (Airbnb sticky) --- */
+.hp-chips {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 64px;
+  z-index: 50;
+}
+
+.hp-chips-scroll {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.hp-chips-scroll::-webkit-scrollbar { display: none; }
+
+.hp-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid var(--border-solid);
+  color: var(--text-secondary);
+  background: var(--surface);
+  transition: all var(--duration) var(--ease);
+  min-height: 44px;
+}
+.hp-chip:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--bg-alt);
+}
+.hp-chip-icon { font-size: 1rem; }
+
+/* --- Service Cards (Airbnb listing) --- */
+.hp-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.hp-card {
+  display: block;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: transform var(--duration) var(--ease),
+              box-shadow var(--duration) var(--ease);
+}
+.hp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hp-card-img {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+.hp-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease);
+}
+.hp-card:hover .hp-card-img img {
+  transform: scale(1.03);
+}
+
+.hp-card-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+}
+.hp-card-badge--accent {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.hp-card-body { padding: 1.25rem; }
+.hp-card-body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.hp-card-body p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.hp-card-arrow {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* --- Carousel (Product Showcase) --- */
+.hp-carousel { margin-top: 2rem; position: relative; }
+
+.hp-carousel-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 max(1rem, calc((100vw - var(--container)) / 2));
+}
+.hp-carousel-track::-webkit-scrollbar { display: none; }
+
+.hp-carousel-slide {
+  flex: 0 0 min(400px, 85vw);
+  scroll-snap-align: center;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.hp-carousel-slide img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+  border-bottom: 1px solid var(--border);
+}
+.hp-slide-step {
+  padding: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.hp-slide-caption {
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hp-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+.hp-carousel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-solid);
+  transition: background var(--duration) var(--ease),
+              width var(--duration) var(--ease);
+}
+.hp-carousel-dot.active {
+  background: var(--accent);
+  width: 18px;
+  border-radius: var(--radius-full);
+}
+
+/* --- Match Cards (Track Record swipe) --- */
+.hp-swipe-row { margin-top: 2rem; }
+
+.hp-swipe-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 max(1rem, calc((100vw - var(--container)) / 2));
+  padding-bottom: 1rem;
+}
+.hp-swipe-track::-webkit-scrollbar { display: none; }
+
+.hp-match-card {
+  flex: 0 0 min(320px, 80vw);
+  scroll-snap-align: start;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: transform var(--duration) var(--ease),
+              box-shadow var(--duration) var(--ease);
+}
+.hp-match-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.hp-match-img {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.hp-match-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hp-match-tag {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+}
+
+.hp-match-body { padding: 1.25rem; }
+.hp-match-body h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+.hp-match-body p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.hp-match-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: opacity var(--duration);
+}
+.hp-match-link:hover { opacity: 0.6; }
+
+/* --- Profile Card (CEO) --- */
+.hp-profile {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 3rem;
+  margin-top: 2.5rem;
+  align-items: start;
+}
+.hp-profile-photo {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+.hp-profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hp-profile-header { margin-bottom: 1rem; }
+.hp-profile-name { font-size: 1.5rem; font-weight: 800; }
+.hp-profile-role {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+.hp-profile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.hp-tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--bg-alt);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.hp-profile-bio {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.hp-profile-stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+.hp-stat { text-align: center; }
+.hp-stat-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+}
+.hp-stat-label {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+/* --- CTA with background image --- */
+.hp-cta {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 5rem 3rem;
+  text-align: center;
+}
+.hp-cta-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hp-cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(52, 53, 65, 0.85);
+}
+.hp-cta-content {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+}
+.hp-cta-content h2 {
+  font-size: clamp(1.25rem, 2.5vw, 1.85rem);
+  font-weight: 800;
+}
+.hp-cta-content p {
+  margin-top: 0.75rem;
+  opacity: 0.65;
+  font-size: 0.95rem;
+}
+.hp-cta-content .button {
+  margin-top: 2rem;
+  background: #ffffff;
+  color: var(--accent);
+}
+.hp-cta-content .button:hover {
+  background: #f0f0f0;
+}
+
+/* ============================================================
    Responsive — Tablet (≤1024px)
    ============================================================ */
 
@@ -934,6 +1438,11 @@ textarea {
   }
 
   .grid.cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* HP tablet */
+  .hp-card-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -1179,6 +1688,70 @@ textarea {
   .img-placeholder {
     border-radius: var(--radius-sm);
   }
+
+  /* HP Hero mobile */
+  .hp-hero { min-height: 100svh; }
+  .hp-hero-content { padding-bottom: 2.5rem; }
+  .hp-hero-title { font-size: 1.75rem; }
+  .hp-hero-sub { font-size: 0.9rem; }
+  .hp-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hp-hero-actions .button {
+    width: 100%;
+    justify-content: center;
+  }
+  .hp-hero-trust {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .hp-hero-trust::-webkit-scrollbar { display: none; }
+
+  /* HP Chips mobile */
+  .hp-chips { top: 64px; }
+
+  /* HP Cards mobile */
+  .hp-card-grid {
+    grid-template-columns: 1fr;
+    margin-top: 1.5rem;
+  }
+
+  /* HP Section mobile */
+  .hp-section { padding: var(--section-y-mobile) 0; }
+  .hp-heading { font-size: 1.35rem; }
+  .hp-lead { font-size: 0.9rem; }
+
+  /* HP Carousel mobile */
+  .hp-carousel-slide { flex: 0 0 85vw; }
+
+  /* HP Match Cards mobile */
+  .hp-match-card { flex: 0 0 80vw; }
+
+  /* HP Profile mobile */
+  .hp-profile {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .hp-profile-photo {
+    aspect-ratio: 1 / 1;
+    max-width: 220px;
+    margin: 0 auto;
+    border-radius: 50%;
+  }
+  .hp-profile-stats { justify-content: center; }
+  .hp-profile-name { font-size: 1.25rem; }
+  .hp-profile-body { text-align: center; }
+  .hp-profile-tags { justify-content: center; }
+
+  /* HP CTA mobile */
+  .hp-cta {
+    padding: 3rem 1.25rem;
+    border-radius: 16px;
+  }
+  .hp-cta-content h2 { font-size: 1.15rem; }
 }
 
 /* ============================================================
@@ -1222,4 +1795,9 @@ textarea {
     width: 100%;
     justify-content: center;
   }
+
+  /* HP small mobile */
+  .hp-hero-title { font-size: 1.5rem; }
+  .hp-carousel-slide { flex: 0 0 90vw; }
+  .hp-match-card { flex: 0 0 85vw; }
 }
