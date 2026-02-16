@@ -1,0 +1,15 @@
+# Ranchu Japan LLC
+
+Ranchu Japan is a software company for municipalities, enterprises, and store owners.
+
+## Core Pages
+- / : Company overview and trust signals
+- /solutions/ : Audience-specific solutions
+- /services/custom-development/ : Contract software development and DX support
+- /services/kuchitoru/ : Product overview for review/MEO operations
+- /case-studies/ : Implementation examples
+- /company/ : Corporate profile and timeline
+- /contact/ : Inquiry form
+
+## Positioning
+Most intelligent, most simple.

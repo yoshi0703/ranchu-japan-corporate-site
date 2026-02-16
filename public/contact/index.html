@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>お問い合わせ | Ranchu Japan合同会社</title>
+    <meta name="description" content="Ranchu Japan合同会社へのお問い合わせ。自治体・企業・店舗・パートナーの相談を受け付けています。" />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+    <link rel="canonical" href="https://www.ranchujpn.com/contact/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header"><div class="container header-inner"><a href="/" class="brand"><span class="brand-mark"></span><span>Ranchu Japan合同会社</span></a><button class="menu-button" data-menu-button aria-expanded="false" aria-controls="global-nav">メニュー</button><nav class="site-nav" id="global-nav" data-site-nav><a href="/solutions/">ソリューション</a><a href="/services/custom-development/">受託開発</a><a href="/case-studies/">実績</a><a href="/company/">会社情報</a><a href="/news/">ニュース</a></nav><div class="header-actions"><a class="button" href="/contact/">お問い合わせ</a></div></div></header>
+
+    <main class="section">
+      <div class="container">
+        <p class="small"><a href="/">ホーム</a> / お問い合わせ</p>
+        <h1 class="section-title">お問い合わせ</h1>
+        <p class="section-lead">通常3営業日以内に担当者より返信します。</p>
+
+        <div class="form-wrap" style="margin-top:1rem;">
+          <form class="js-contact-form" novalidate>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="name">お名前</label>
+                <input id="name" name="name" autocomplete="name" required />
+              </div>
+              <div class="form-field">
+                <label for="organization">組織名</label>
+                <input id="organization" name="organization" autocomplete="organization" required />
+              </div>
+              <div class="form-field">
+                <label for="email">メールアドレス</label>
+                <input id="email" name="email" type="email" autocomplete="email" required />
+              </div>
+              <div class="form-field">
+                <label for="inquiryType">お問い合わせ種別</label>
+                <select id="inquiryType" name="inquiryType" required>
+                  <option value="">選択してください</option>
+                  <option value="自治体向け相談">自治体向け相談</option>
+                  <option value="企業向け相談">企業向け相談</option>
+                  <option value="店舗向け相談">店舗向け相談</option>
+                  <option value="パートナー相談">パートナー相談</option>
+                  <option value="その他">その他</option>
+                </select>
+              </div>
+              <div class="form-field full">
+                <label for="message">ご相談内容</label>
+                <textarea id="message" name="message" required minlength="20" placeholder="背景、現在の課題、希望時期などをご記入ください。"></textarea>
+                <p class="form-note">20文字以上でご記入ください。</p>
+              </div>
+              <div class="form-field full" style="display:none;">
+                <label for="website">Website</label>
+                <input id="website" name="website" tabindex="-1" autocomplete="off" />
+              </div>
+              <div class="form-field full">
+                <label><input type="checkbox" name="privacyConsent" required /> プライバシーポリシーに同意する</label>
+              </div>
+            </div>
+            <button type="submit">送信する</button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer"><div class="container footer-grid"><div><strong>Ranchu Japan合同会社</strong><p class="small">© <span data-current-year></span> Ranchu Japan LLC</p></div><div class="footer-links"><a href="/privacy/">プライバシーポリシー</a></div></div></footer>
+    <script src="/assets/js/main.js" defer></script>
+    <script src="/assets/js/contact.js" defer></script>
+  </body>
+</html>
