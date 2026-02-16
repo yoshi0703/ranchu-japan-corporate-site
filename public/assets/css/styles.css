@@ -1805,3 +1805,136 @@ textarea {
   .hp-carousel-slide { flex: 0 0 90vw; }
   .hp-match-card { flex: 0 0 85vw; }
 }
+
+/* ============================================================
+   Auto Dark Mode — prefers-color-scheme
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --bg: #111318;
+    --bg-alt: #1a1d28;
+    --surface: #1e2130;
+    --text: #e4e4e7;
+    --text-secondary: #a1a1aa;
+    --text-tertiary: #71717a;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-solid: #2e3348;
+
+    --accent: #ffffff;
+    --accent-hover: #d4d4d8;
+    --accent-shadow: rgba(255, 255, 255, 0.1);
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+  }
+
+  /* Header — dark frosted glass */
+  .site-header {
+    background: rgba(17, 19, 24, 0.88);
+  }
+
+  .skip-link:focus {
+    color: #111318;
+  }
+
+  /* Buttons — accent is now white, text must be dark */
+  .button,
+  button[type="submit"] {
+    color: #111318;
+  }
+
+  .button.secondary {
+    color: var(--text);
+  }
+
+  .button.ghost {
+    color: var(--text);
+  }
+
+  /* Form focus ring */
+  input:focus,
+  select:focus,
+  textarea:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
+  }
+
+  /* Badge — dark palette */
+  .badge.red { background: #3b1318; color: #fca5a5; border-color: #7f1d1d; }
+  .badge.orange { background: #3b1f0b; color: #fdba74; border-color: #7c2d12; }
+  .badge.green { background: #0b3b1f; color: #86efac; border-color: #14532d; }
+  .badge.blue { background: #0b1f3b; color: #93c5fd; border-color: #1e3a5f; }
+  .badge.purple { background: #1f0b3b; color: #c4b5fd; border-color: #4c1d95; }
+
+  /* Form status */
+  .form-status.success {
+    background: #0b3b1f;
+    color: #86efac;
+    border-color: #14532d;
+  }
+
+  .form-status.error {
+    background: #3b1318;
+    color: #fca5a5;
+    border-color: #7f1d1d;
+  }
+
+  /* CTA Panel — inverted contrast */
+  .cta-panel {
+    color: #111318;
+  }
+
+  .cta-panel .button {
+    background: #111318;
+    color: #ffffff;
+  }
+
+  .cta-panel .button:hover {
+    background: #2a2b36;
+  }
+
+  /* HP Hero actions — on dark overlay */
+  .hp-hero-actions .button {
+    color: #111318;
+  }
+
+  .hp-hero-actions .button:hover {
+    color: #111318;
+  }
+
+  /* HP CTA — on image overlay */
+  .hp-cta-content .button {
+    color: #111318;
+  }
+
+  .hp-cta-content .button:hover {
+    background: #e4e4e7;
+    color: #111318;
+  }
+
+  /* HP Card badge on images */
+  .hp-card-badge {
+    background: rgba(17, 19, 24, 0.85);
+  }
+
+  .hp-card-badge--accent {
+    color: #111318;
+  }
+
+  /* HP Match tag on images */
+  .hp-match-tag {
+    background: rgba(17, 19, 24, 0.88);
+    color: var(--text);
+  }
+}
+
+/* Mobile dark mode — nav overlay */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+  .site-nav {
+    background: rgba(17, 19, 24, 0.98);
+  }
+}
