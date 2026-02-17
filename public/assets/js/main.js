@@ -1,4 +1,13 @@
 (() => {
+  const supportsRequestIdleCallback = typeof window.requestIdleCallback === 'function';
+  const idle = (cb) => {
+    if (supportsRequestIdleCallback) {
+      window.requestIdleCallback(cb, { timeout: 1200 });
+      return;
+    }
+    window.setTimeout(cb, 1);
+  };
+
   const menuBtn = document.querySelector('[data-menu-button]');
   const menu = document.querySelector('[data-site-nav]');
   const yearTargets = document.querySelectorAll('[data-current-year]');
@@ -61,7 +70,7 @@
         const activeIndex = Math.round(scrollLeft / slideWidth);
         dots.forEach((d, i) => d.classList.toggle('active', i === activeIndex));
       }, 50);
-    });
+    }, { passive: true });
   });
 
   // --- Smooth scroll for in-page anchors ---
@@ -77,5 +86,44 @@
         window.scrollTo({ top, behavior: 'smooth' });
       }
     });
+  });
+
+  // --- Smart link prefetch ---
+  const prefetched = new Set();
+  const isSameOrigin = (href) => {
+    try {
+      const url = new URL(href, window.location.href);
+      return url.origin === window.location.origin;
+    } catch {
+      return false;
+    }
+  };
+
+  const prefetch = (href) => {
+    if (!isSameOrigin(href)) return;
+    const url = new URL(href, window.location.href);
+    if (url.pathname === window.location.pathname || prefetched.has(url.pathname)) return;
+
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.as = 'document';
+    link.href = url.pathname;
+    document.head.appendChild(link);
+    prefetched.add(url.pathname);
+  };
+
+  const navLinks = Array.from(document.querySelectorAll('a[href]')).filter((link) => {
+    const href = link.getAttribute('href') || '';
+    return href.startsWith('/') && !href.startsWith('//') && !href.startsWith('/#');
+  });
+
+  navLinks.forEach((link) => {
+    const href = link.href;
+    link.addEventListener('mouseenter', () => prefetch(href), { passive: true });
+    link.addEventListener('touchstart', () => prefetch(href), { passive: true, once: true });
+  });
+
+  idle(() => {
+    navLinks.slice(0, 6).forEach((link) => prefetch(link.href));
   });
 })();
