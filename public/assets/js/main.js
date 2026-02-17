@@ -91,6 +91,7 @@
   // --- Smart link prefetch ---
   const prefetched = new Set();
   const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const prefetchSupport = document.createElement('link').relList?.supports?.('prefetch') === true;
   const isSameOrigin = (href) => {
     try {
       const url = new URL(href, window.location.href);
@@ -101,7 +102,7 @@
   };
 
   const canPrefetch = () => {
-    if (!('HTMLLinkElement' in window)) return false;
+    if (!prefetchSupport) return false;
     if (connection?.saveData) return false;
     const type = String(connection?.effectiveType || '');
     if (type.includes('2g')) return false;

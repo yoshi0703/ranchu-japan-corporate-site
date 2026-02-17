@@ -326,12 +326,21 @@ function serveFile(req, res, filePath, method = 'GET') {
   const contentType = MIME_TYPES[ext] || 'application/octet-stream';
   const meta = getStaticMeta(filePath);
   const cacheControl = getCacheControl(filePath);
+  const compression = pickCompression(req, ext);
   const baseHeaders = {
     'Content-Type': contentType,
     'Cache-Control': cacheControl,
     ETag: meta.etag,
     'Last-Modified': new Date(meta.mtimeMs).toUTCString()
   };
+
+  if (COMPRESSIBLE_TYPES.has(ext)) {
+    baseHeaders.Vary = 'Accept-Encoding';
+  }
+
+  if (compression) {
+    baseHeaders['Content-Encoding'] = compression;
+  }
 
   if (isClientCacheValid(req, meta)) {
     res.writeHead(304, baseHeaders);
@@ -340,15 +349,14 @@ function serveFile(req, res, filePath, method = 'GET') {
   }
 
   if (method === 'HEAD') {
-    res.writeHead(200, {
-      ...baseHeaders,
-      'Content-Length': meta.size
-    });
+    if (!compression) {
+      baseHeaders['Content-Length'] = meta.size;
+    }
+    res.writeHead(200, baseHeaders);
     res.end();
     return;
   }
 
-  const compression = pickCompression(req, ext);
   if (!compression) {
     res.writeHead(200, {
       ...baseHeaders,
@@ -358,13 +366,7 @@ function serveFile(req, res, filePath, method = 'GET') {
     return;
   }
 
-  const encodingHeaders = {
-    ...baseHeaders,
-    'Content-Encoding': compression,
-    Vary: 'Accept-Encoding'
-  };
-
-  res.writeHead(200, encodingHeaders);
+  res.writeHead(200, baseHeaders);
   const stream = fs.createReadStream(filePath);
 
   if (compression === 'br') {
