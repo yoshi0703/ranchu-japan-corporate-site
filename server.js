@@ -135,21 +135,27 @@ function parseAcceptEncoding(req) {
 }
 
 function qualityOf(encodings, encoding) {
-  const exact = encodings.find((item) => item.name === encoding);
-  if (exact) return exact.q;
-  const wildcard = encodings.find((item) => item.name === '*');
-  return wildcard ? wildcard.q : 0;
+  const exactMatches = encodings.filter((item) => item.name === encoding).map((item) => item.q);
+  if (exactMatches.length > 0) return Math.max(...exactMatches);
+
+  const wildcardMatches = encodings.filter((item) => item.name === '*').map((item) => item.q);
+  return wildcardMatches.length > 0 ? Math.max(...wildcardMatches) : 0;
 }
 
-function pickCompression(req, ext) {
-  if (!COMPRESSIBLE_TYPES.has(ext)) return { encoding: null, notAcceptable: false };
-
+function pickCompression(req, ext, canCompress) {
   const encodings = parseAcceptEncoding(req);
   const hasHeader = encodings.length > 0;
+  const identityQ = hasHeader ? qualityOf(encodings, 'identity') : 1;
+
+  if (!canCompress || !COMPRESSIBLE_TYPES.has(ext)) {
+    return {
+      encoding: null,
+      notAcceptable: identityQ === 0
+    };
+  }
 
   const brQ = qualityOf(encodings, 'br');
   const gzipQ = Math.max(qualityOf(encodings, 'gzip'), qualityOf(encodings, 'x-gzip'));
-  const identityQ = hasHeader ? qualityOf(encodings, 'identity') : 1;
 
   if (brQ === 0 && gzipQ === 0 && identityQ === 0) {
     return { encoding: null, notAcceptable: true };
@@ -379,7 +385,7 @@ function serveFile(req, res, filePath, method = 'GET') {
   const meta = getStaticMeta(filePath);
   const cacheControl = getCacheControl(filePath);
   const canCompress = shouldCompress(ext, meta.size);
-  const compressionResult = canCompress ? pickCompression(req, ext) : { encoding: null, notAcceptable: false };
+  const compressionResult = pickCompression(req, ext, canCompress);
   const compression = compressionResult.encoding;
   if (compressionResult.notAcceptable) {
     res.writeHead(406, {
