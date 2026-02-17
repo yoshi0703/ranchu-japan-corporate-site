@@ -15,6 +15,7 @@ const MAX_BODY_BYTES = 1024 * 64;
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
+const MIN_COMPRESS_BYTES = 1024;
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -110,11 +111,45 @@ function getCacheControl(filePath) {
 function pickCompression(req, ext) {
   if (!COMPRESSIBLE_TYPES.has(ext)) return null;
 
-  const acceptEncoding = String(req.headers['accept-encoding'] || '');
-  if (acceptEncoding.includes('br')) return 'br';
-  if (acceptEncoding.includes('gzip')) return 'gzip';
+  const acceptEncoding = String(req.headers['accept-encoding'] || '').toLowerCase();
+  if (!acceptEncoding) return null;
 
-  return null;
+  const parseQ = (token) => {
+    const [name, ...params] = token.trim().split(';');
+    let q = 1;
+    params.forEach((param) => {
+      const [k, v] = param.trim().split('=');
+      if (k === 'q') {
+        const parsed = Number(v);
+        if (!Number.isNaN(parsed)) q = parsed;
+      }
+    });
+    return { name, q };
+  };
+
+  const encodings = acceptEncoding
+    .split(',')
+    .map(parseQ)
+    .filter((item) => item.name && item.q > 0);
+
+  const qualityOf = (encoding) => {
+    const exact = encodings.find((item) => item.name === encoding);
+    if (exact) return exact.q;
+    const wildcard = encodings.find((item) => item.name === '*');
+    return wildcard ? wildcard.q : 0;
+  };
+
+  const brQ = qualityOf('br');
+  const gzipQ = qualityOf('gzip');
+
+  if (brQ === 0 && gzipQ === 0) return null;
+  if (brQ >= gzipQ) return 'br';
+  return 'gzip';
+
+}
+
+function shouldCompress(ext, size) {
+  return COMPRESSIBLE_TYPES.has(ext) && size >= MIN_COMPRESS_BYTES;
 }
 
 function getClientIp(req) {
@@ -326,7 +361,8 @@ function serveFile(req, res, filePath, method = 'GET') {
   const contentType = MIME_TYPES[ext] || 'application/octet-stream';
   const meta = getStaticMeta(filePath);
   const cacheControl = getCacheControl(filePath);
-  const compression = pickCompression(req, ext);
+  const canCompress = shouldCompress(ext, meta.size);
+  const compression = canCompress ? pickCompression(req, ext) : null;
   const baseHeaders = {
     'Content-Type': contentType,
     'Cache-Control': cacheControl,
@@ -334,7 +370,7 @@ function serveFile(req, res, filePath, method = 'GET') {
     'Last-Modified': new Date(meta.mtimeMs).toUTCString()
   };
 
-  if (COMPRESSIBLE_TYPES.has(ext)) {
+  if (canCompress) {
     baseHeaders.Vary = 'Accept-Encoding';
   }
 

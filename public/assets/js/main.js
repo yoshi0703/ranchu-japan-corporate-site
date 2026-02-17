@@ -1,13 +1,4 @@
 (() => {
-  const supportsRequestIdleCallback = typeof window.requestIdleCallback === 'function';
-  const idle = (cb) => {
-    if (supportsRequestIdleCallback) {
-      window.requestIdleCallback(cb, { timeout: 1200 });
-      return;
-    }
-    window.setTimeout(cb, 1);
-  };
-
   const menuBtn = document.querySelector('[data-menu-button]');
   const menu = document.querySelector('[data-site-nav]');
   const yearTargets = document.querySelectorAll('[data-current-year]');
@@ -118,6 +109,7 @@
     const link = document.createElement('link');
     link.rel = 'prefetch';
     link.as = 'document';
+    link.setAttribute('data-auto-prefetch', 'true');
     link.href = url.pathname;
     document.head.appendChild(link);
     prefetched.add(url.pathname);
@@ -130,11 +122,8 @@
 
   navLinks.forEach((link) => {
     const href = link.href;
-    link.addEventListener('mouseenter', () => prefetch(href), { passive: true });
+    link.addEventListener('pointerenter', () => prefetch(href), { passive: true });
     link.addEventListener('touchstart', () => prefetch(href), { passive: true, once: true });
-  });
-
-  idle(() => {
-    navLinks.slice(0, 6).forEach((link) => prefetch(link.href));
+    link.addEventListener('focus', () => prefetch(href), { passive: true });
   });
 })();
