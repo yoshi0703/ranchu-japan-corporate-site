@@ -34,7 +34,6 @@ const MIME_TYPES = {
 
 const rateLimit = new Map();
 
-const STATIC_CACHE = new Map();
 const COMPRESSIBLE_TYPES = new Set([
   '.html',
   '.css',
@@ -68,19 +67,13 @@ function setSecurityHeaders(res) {
 }
 
 function getStaticMeta(filePath) {
-  const cached = STATIC_CACHE.get(filePath);
-  if (cached) return cached;
-
   const stats = fs.statSync(filePath);
   const etag = `W/\"${stats.size.toString(16)}-${Math.floor(stats.mtimeMs).toString(16)}\"`;
-  const meta = {
+  return {
     size: stats.size,
     mtimeMs: stats.mtimeMs,
     etag
   };
-
-  STATIC_CACHE.set(filePath, meta);
-  return meta;
 }
 
 function isClientCacheValid(req, meta) {
@@ -92,7 +85,7 @@ function isClientCacheValid(req, meta) {
   const ifModifiedSince = req.headers['if-modified-since'];
   if (typeof ifModifiedSince === 'string' && ifModifiedSince.length > 0) {
     const ts = Date.parse(ifModifiedSince);
-    if (!Number.isNaN(ts) && meta.mtimeMs <= ts) {
+    if (!Number.isNaN(ts) && Math.floor(meta.mtimeMs / 1000) * 1000 <= ts) {
       return true;
     }
   }

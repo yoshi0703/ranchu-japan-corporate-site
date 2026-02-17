@@ -90,6 +90,7 @@
 
   // --- Smart link prefetch ---
   const prefetched = new Set();
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   const isSameOrigin = (href) => {
     try {
       const url = new URL(href, window.location.href);
@@ -99,7 +100,16 @@
     }
   };
 
+  const canPrefetch = () => {
+    if (!('HTMLLinkElement' in window)) return false;
+    if (connection?.saveData) return false;
+    const type = String(connection?.effectiveType || '');
+    if (type.includes('2g')) return false;
+    return true;
+  };
+
   const prefetch = (href) => {
+    if (!canPrefetch()) return;
     if (!isSameOrigin(href)) return;
     const url = new URL(href, window.location.href);
     if (url.pathname === window.location.pathname || prefetched.has(url.pathname)) return;
@@ -112,7 +122,7 @@
     prefetched.add(url.pathname);
   };
 
-  const navLinks = Array.from(document.querySelectorAll('a[href]')).filter((link) => {
+  const navLinks = Array.from(document.querySelectorAll('.site-nav a[href], .header-actions a[href], .button[href]')).filter((link) => {
     const href = link.getAttribute('href') || '';
     return href.startsWith('/') && !href.startsWith('//') && !href.startsWith('/#');
   });
