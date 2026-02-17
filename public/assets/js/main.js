@@ -61,7 +61,7 @@
         const activeIndex = Math.round(scrollLeft / slideWidth);
         dots.forEach((d, i) => d.classList.toggle('active', i === activeIndex));
       }, 50);
-    });
+    }, { passive: true });
   });
 
   // --- Smooth scroll for in-page anchors ---
@@ -77,5 +77,56 @@
         window.scrollTo({ top, behavior: 'smooth' });
       }
     });
+  });
+
+  // --- Smart link prefetch ---
+  const prefetched = new Set();
+  const MAX_PREFETCHED_LINKS = 12;
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const prefetchSupport = document.createElement('link').relList?.supports?.('prefetch') === true;
+  const isSameOrigin = (href) => {
+    try {
+      const url = new URL(href, window.location.href);
+      return url.origin === window.location.origin;
+    } catch {
+      return false;
+    }
+  };
+
+  const canPrefetch = () => {
+    if (!prefetchSupport) return false;
+    if (connection?.saveData) return false;
+    const type = String(connection?.effectiveType || '');
+    if (type.includes('2g')) return false;
+    return true;
+  };
+
+  const prefetch = (href) => {
+    if (!canPrefetch()) return;
+    if (!isSameOrigin(href)) return;
+    const url = new URL(href, window.location.href);
+    if (url.pathname === window.location.pathname || prefetched.has(url.pathname)) return;
+    if (prefetched.size >= MAX_PREFETCHED_LINKS) return;
+    if (document.querySelector(`link[rel="prefetch"][href="${url.pathname}"]`)) return;
+
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.as = 'document';
+    link.setAttribute('data-auto-prefetch', 'true');
+    link.href = url.pathname;
+    document.head.appendChild(link);
+    prefetched.add(url.pathname);
+  };
+
+  const navLinks = Array.from(document.querySelectorAll('.site-nav a[href], .header-actions a[href], .button[href]')).filter((link) => {
+    const href = link.getAttribute('href') || '';
+    return href.startsWith('/') && !href.startsWith('//') && !href.startsWith('/#');
+  });
+
+  navLinks.forEach((link) => {
+    const href = link.href;
+    link.addEventListener('pointerenter', () => prefetch(href), { passive: true });
+    link.addEventListener('touchstart', () => prefetch(href), { passive: true, once: true });
+    link.addEventListener('focus', () => prefetch(href), { passive: true });
   });
 })();

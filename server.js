@@ -2,6 +2,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const fsp = require('node:fs/promises');
 const path = require('node:path');
+const zlib = require('node:zlib');
 const { URL } = require('node:url');
 const querystring = require('node:querystring');
 
@@ -13,6 +14,8 @@ const INQUIRIES_FILE = path.join(DATA_DIR, 'inquiries.ndjson');
 const MAX_BODY_BYTES = 1024 * 64;
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
+const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
+const MIN_COMPRESS_BYTES = 1024;
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -31,6 +34,17 @@ const MIME_TYPES = {
 };
 
 const rateLimit = new Map();
+
+const COMPRESSIBLE_TYPES = new Set([
+  '.html',
+  '.css',
+  '.js',
+  '.json',
+  '.xml',
+  '.txt',
+  '.svg',
+  '.webmanifest'
+]);
 
 function setSecurityHeaders(res) {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -51,6 +65,114 @@ function setSecurityHeaders(res) {
       "frame-ancestors 'self'"
     ].join('; ')
   );
+}
+
+function getStaticMeta(filePath) {
+  const stats = fs.statSync(filePath);
+  const etag = `W/\"${stats.size.toString(16)}-${Math.floor(stats.mtimeMs).toString(16)}\"`;
+  return {
+    size: stats.size,
+    mtimeMs: stats.mtimeMs,
+    etag
+  };
+}
+
+function isClientCacheValid(req, meta) {
+  const ifNoneMatch = req.headers['if-none-match'];
+  if (typeof ifNoneMatch === 'string' && ifNoneMatch === meta.etag) {
+    return true;
+  }
+
+  const ifModifiedSince = req.headers['if-modified-since'];
+  if (typeof ifModifiedSince === 'string' && ifModifiedSince.length > 0) {
+    const ts = Date.parse(ifModifiedSince);
+    if (!Number.isNaN(ts) && Math.floor(meta.mtimeMs / 1000) * 1000 <= ts) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function getCacheControl(filePath) {
+  const rel = path.relative(PUBLIC_DIR, filePath).replace(/\\/g, '/');
+
+  if (rel.startsWith('assets/')) {
+    return `public, max-age=${ONE_YEAR_SECONDS}, immutable`;
+  }
+
+  if (rel === 'robots.txt' || rel === 'sitemap.xml' || rel === 'site.webmanifest') {
+    return 'public, max-age=86400, stale-while-revalidate=604800';
+  }
+
+  return 'public, max-age=0, must-revalidate';
+}
+
+function parseAcceptEncoding(req) {
+  const acceptEncoding = String(req.headers['accept-encoding'] || '').toLowerCase();
+  if (!acceptEncoding) return [];
+
+  return acceptEncoding
+    .split(',')
+    .map((token) => {
+      const [rawName, ...params] = token.trim().split(';');
+      const name = rawName.trim();
+      let q = 1;
+
+      params.forEach((param) => {
+        const [k, v] = param.trim().split('=');
+        if (k === 'q') {
+          const parsed = Number(v);
+          if (!Number.isNaN(parsed)) {
+            q = Math.max(0, Math.min(1, parsed));
+          }
+        }
+      });
+
+      return { name, q };
+    })
+    .filter((item) => item.name);
+}
+
+function qualityOf(encodings, encoding) {
+  const exactMatches = encodings.filter((item) => item.name === encoding).map((item) => item.q);
+  if (exactMatches.length > 0) return Math.max(...exactMatches);
+
+  const wildcardMatches = encodings.filter((item) => item.name === '*').map((item) => item.q);
+  return wildcardMatches.length > 0 ? Math.max(...wildcardMatches) : 0;
+}
+
+function pickCompression(req, ext, canCompress) {
+  const encodings = parseAcceptEncoding(req);
+  const hasHeader = encodings.length > 0;
+  const identityQ = hasHeader ? qualityOf(encodings, 'identity') : 1;
+
+  if (!canCompress || !COMPRESSIBLE_TYPES.has(ext)) {
+    return {
+      encoding: null,
+      notAcceptable: identityQ === 0
+    };
+  }
+
+  const brQ = qualityOf(encodings, 'br');
+  const gzipQ = Math.max(qualityOf(encodings, 'gzip'), qualityOf(encodings, 'x-gzip'));
+
+  if (brQ === 0 && gzipQ === 0 && identityQ === 0) {
+    return { encoding: null, notAcceptable: true };
+  }
+
+  if (brQ === 0 && gzipQ === 0) {
+    return { encoding: null, notAcceptable: false };
+  }
+
+  return {
+    encoding: brQ >= gzipQ ? 'br' : 'gzip',
+    notAcceptable: false
+  };
+}
+
+function shouldCompress(ext, size) {
+  return COMPRESSIBLE_TYPES.has(ext) && size >= MIN_COMPRESS_BYTES;
 }
 
 function getClientIp(req) {
@@ -257,12 +379,75 @@ function resolveStaticPath(urlPath) {
   return null;
 }
 
-function serveFile(filePath, res) {
+function serveFile(req, res, filePath, method = 'GET') {
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+  const meta = getStaticMeta(filePath);
+  const cacheControl = getCacheControl(filePath);
+  const canCompress = shouldCompress(ext, meta.size);
+  const compressionResult = pickCompression(req, ext, canCompress);
+  const compression = compressionResult.encoding;
+  if (compressionResult.notAcceptable) {
+    res.writeHead(406, {
+      'Content-Type': 'text/plain; charset=utf-8',
+      Vary: 'Accept-Encoding'
+    });
+    res.end('Not Acceptable');
+    return;
+  }
 
-  res.writeHead(200, { 'Content-Type': contentType });
-  fs.createReadStream(filePath).pipe(res);
+  const baseHeaders = {
+    'Content-Type': contentType,
+    'Cache-Control': cacheControl,
+    ETag: meta.etag,
+    'Last-Modified': new Date(meta.mtimeMs).toUTCString()
+  };
+
+  if (canCompress) {
+    baseHeaders.Vary = 'Accept-Encoding';
+  }
+
+  if (compression) {
+    baseHeaders['Content-Encoding'] = compression;
+  }
+
+  if (isClientCacheValid(req, meta)) {
+    res.writeHead(304, baseHeaders);
+    res.end();
+    return;
+  }
+
+  if (method === 'HEAD') {
+    if (!compression) {
+      baseHeaders['Content-Length'] = meta.size;
+    }
+    res.writeHead(200, baseHeaders);
+    res.end();
+    return;
+  }
+
+  if (!compression) {
+    res.writeHead(200, {
+      ...baseHeaders,
+      'Content-Length': meta.size
+    });
+    fs.createReadStream(filePath).pipe(res);
+    return;
+  }
+
+  res.writeHead(200, baseHeaders);
+  const stream = fs.createReadStream(filePath);
+
+  if (compression === 'br') {
+    stream.pipe(zlib.createBrotliCompress({
+      params: {
+        [zlib.constants.BROTLI_PARAM_QUALITY]: 5
+      }
+    })).pipe(res);
+    return;
+  }
+
+  stream.pipe(zlib.createGzip({ level: zlib.constants.Z_BEST_SPEED })).pipe(res);
 }
 
 function serveNotFound(res) {
@@ -300,15 +485,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.method === 'HEAD') {
-    const ext = path.extname(filePath).toLowerCase();
-    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-    res.writeHead(200, { 'Content-Type': contentType });
-    res.end();
-    return;
-  }
-
-  serveFile(filePath, res);
+  serveFile(req, res, filePath, req.method);
 });
 
 server.listen(PORT, HOST, () => {
