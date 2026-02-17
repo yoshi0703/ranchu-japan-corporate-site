@@ -108,44 +108,61 @@ function getCacheControl(filePath) {
   return 'public, max-age=0, must-revalidate';
 }
 
-function pickCompression(req, ext) {
-  if (!COMPRESSIBLE_TYPES.has(ext)) return null;
-
+function parseAcceptEncoding(req) {
   const acceptEncoding = String(req.headers['accept-encoding'] || '').toLowerCase();
-  if (!acceptEncoding) return null;
+  if (!acceptEncoding) return [];
 
-  const parseQ = (token) => {
-    const [name, ...params] = token.trim().split(';');
-    let q = 1;
-    params.forEach((param) => {
-      const [k, v] = param.trim().split('=');
-      if (k === 'q') {
-        const parsed = Number(v);
-        if (!Number.isNaN(parsed)) q = parsed;
-      }
-    });
-    return { name, q };
-  };
-
-  const encodings = acceptEncoding
+  return acceptEncoding
     .split(',')
-    .map(parseQ)
-    .filter((item) => item.name && item.q > 0);
+    .map((token) => {
+      const [rawName, ...params] = token.trim().split(';');
+      const name = rawName.trim();
+      let q = 1;
 
-  const qualityOf = (encoding) => {
-    const exact = encodings.find((item) => item.name === encoding);
-    if (exact) return exact.q;
-    const wildcard = encodings.find((item) => item.name === '*');
-    return wildcard ? wildcard.q : 0;
+      params.forEach((param) => {
+        const [k, v] = param.trim().split('=');
+        if (k === 'q') {
+          const parsed = Number(v);
+          if (!Number.isNaN(parsed)) {
+            q = Math.max(0, Math.min(1, parsed));
+          }
+        }
+      });
+
+      return { name, q };
+    })
+    .filter((item) => item.name);
+}
+
+function qualityOf(encodings, encoding) {
+  const exact = encodings.find((item) => item.name === encoding);
+  if (exact) return exact.q;
+  const wildcard = encodings.find((item) => item.name === '*');
+  return wildcard ? wildcard.q : 0;
+}
+
+function pickCompression(req, ext) {
+  if (!COMPRESSIBLE_TYPES.has(ext)) return { encoding: null, notAcceptable: false };
+
+  const encodings = parseAcceptEncoding(req);
+  const hasHeader = encodings.length > 0;
+
+  const brQ = qualityOf(encodings, 'br');
+  const gzipQ = Math.max(qualityOf(encodings, 'gzip'), qualityOf(encodings, 'x-gzip'));
+  const identityQ = hasHeader ? qualityOf(encodings, 'identity') : 1;
+
+  if (brQ === 0 && gzipQ === 0 && identityQ === 0) {
+    return { encoding: null, notAcceptable: true };
+  }
+
+  if (brQ === 0 && gzipQ === 0) {
+    return { encoding: null, notAcceptable: false };
+  }
+
+  return {
+    encoding: brQ >= gzipQ ? 'br' : 'gzip',
+    notAcceptable: false
   };
-
-  const brQ = qualityOf('br');
-  const gzipQ = qualityOf('gzip');
-
-  if (brQ === 0 && gzipQ === 0) return null;
-  if (brQ >= gzipQ) return 'br';
-  return 'gzip';
-
 }
 
 function shouldCompress(ext, size) {
@@ -362,7 +379,17 @@ function serveFile(req, res, filePath, method = 'GET') {
   const meta = getStaticMeta(filePath);
   const cacheControl = getCacheControl(filePath);
   const canCompress = shouldCompress(ext, meta.size);
-  const compression = canCompress ? pickCompression(req, ext) : null;
+  const compressionResult = canCompress ? pickCompression(req, ext) : { encoding: null, notAcceptable: false };
+  const compression = compressionResult.encoding;
+  if (compressionResult.notAcceptable) {
+    res.writeHead(406, {
+      'Content-Type': 'text/plain; charset=utf-8',
+      Vary: 'Accept-Encoding'
+    });
+    res.end('Not Acceptable');
+    return;
+  }
+
   const baseHeaders = {
     'Content-Type': contentType,
     'Cache-Control': cacheControl,

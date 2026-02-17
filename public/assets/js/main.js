@@ -81,6 +81,7 @@
 
   // --- Smart link prefetch ---
   const prefetched = new Set();
+  const MAX_PREFETCHED_LINKS = 12;
   const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   const prefetchSupport = document.createElement('link').relList?.supports?.('prefetch') === true;
   const isSameOrigin = (href) => {
@@ -105,6 +106,8 @@
     if (!isSameOrigin(href)) return;
     const url = new URL(href, window.location.href);
     if (url.pathname === window.location.pathname || prefetched.has(url.pathname)) return;
+    if (prefetched.size >= MAX_PREFETCHED_LINKS) return;
+    if (document.querySelector(`link[rel="prefetch"][href="${url.pathname}"]`)) return;
 
     const link = document.createElement('link');
     link.rel = 'prefetch';
